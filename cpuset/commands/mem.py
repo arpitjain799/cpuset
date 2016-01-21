@@ -2,6 +2,8 @@
 """
 
 __copyright__ = """
+Copyright (C) 2016 Johannes Bechberger
+
 Copyright (C) 2007-2010 Novell Inc.
 Author: Alex Tsariounov <alext@novell.com>
 

@@ -2,6 +2,8 @@
 """
 
 __copyright__ = """
+Copyright (C) 2016 Johannes Bechberger
+
 Copyright (C) 2007-2010 Novell Inc.
 Author: Alex Tsariounov <alext@novell.com>
 
@@ -47,7 +49,7 @@ class TwirlyBar:
 
     def tick(self):
         if not config.mread:
-            print '\b' + self.__bar[self.__state] + '\b',
+            print(('\b' + self.__bar[self.__state] + '\b'))
         self.__state = self.__state + 1
         if self.__state > 3: self.__state = 0
 
@@ -95,3 +97,6 @@ class ProgressBar:
             if percentcomplete == 100: self.f.write("]\n")
         self.blockcount=blockcount
 
+
+def file(filename: str, mode: str = "r"):
+    return open(filename, mode)

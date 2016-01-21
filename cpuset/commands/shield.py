@@ -2,6 +2,8 @@
 """
 
 __copyright__ = """
+Copyright (C) 2016 Johannes Bechberger
+
 Copyright (C) 2007-2010 Novell Inc.
 Author: Alex Tsariounov <alext@novell.com>
 
@@ -298,7 +300,7 @@ def func(parser, options, args):
             else:
                 try:
                     proc.move_pidspec(options.pid, to_set, from_set, options.threads)
-                except CpusetException, err:
+                except CpusetException as err:
                     if str(err).find('do not match all criteria') != -1:
                         log.info("--> hint: perhaps use --force if sure of command")
                         raise
@@ -375,7 +377,7 @@ def make_shield(cpuspec, kthread):
         try:
             set.create(USR_SET, cpuspec, memspec, True, False)
             set.create(SYS_SET, cpuspec_inv, memspec, True, False)
-        except Exception, instance:
+        except Exception as instance:
             # unroll
             try: set.destroy(USR_SET)
             except: pass

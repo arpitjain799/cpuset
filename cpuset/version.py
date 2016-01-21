@@ -1,4 +1,6 @@
 __copyright__ = """
+Copyright (C) 2016 Johannes Bechberger
+
 Copyright (C) 2007-2010 Novell Inc.
 Author: Alex Tsariounov <alext@novell.com>
 
@@ -16,4 +18,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
-version = '1.5.6'
+version = '1.0'

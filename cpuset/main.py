@@ -2,6 +2,8 @@
 """
 
 __copyright__ = """
+Copyright (C) 2016 Johannes Bechberger
+
 Copyright (C) 2007-2010 Novell Inc.
 Author: Alex Tsariounov <alext@novell.com>
 
@@ -36,7 +38,7 @@ class Commands(dict):
         """Return the canonical name for a possibly-shortenned
         command name.
         """
-        candidates = [cmd for cmd in self.keys() if cmd.startswith(key)]
+        candidates = [cmd for cmd in list(self.keys()) if cmd.startswith(key)]
 
         if not candidates:
             log.error('Unknown command: %s', key)
@@ -71,29 +73,29 @@ supercommands = (
     )
 
 def _print_helpstring(cmd):
-    print '  ' + cmd + ' ' * (12 - len(cmd)) + commands[cmd].help
+    print('  ' + cmd + ' ' * (12 - len(cmd)) + commands[cmd].help)
     
 def print_help():
-    print 'Usage: %s [global options] <command> [command options]' % os.path.basename(sys.argv[0])
-    print
-    print 'Global options:'
-    print '  -l/--log <fname>       output debugging log in fname'
-    print '  -m/--machine           print machine readable output'
-    print '  -x/--tohex <CPUSPEC>   convert a CPUSPEC to hex'
-    print
-    print 'Generic commands:'
-    print '  help        print the detailed command usage'
-    print '  version     display version information'
-    print '  copyright   display copyright information'
+    print('Usage: %s [global options] <command> [command options]' % os.path.basename(sys.argv[0]))
+    print()
+    print('Global options:')
+    print('  -l/--log <fname>       output debugging log in fname')
+    print('  -m/--machine           print machine readable output')
+    print('  -x/--tohex <CPUSPEC>   convert a CPUSPEC to hex')
+    print()
+    print('Generic commands:')
+    print('  help        print the detailed command usage')
+    print('  version     display version information')
+    print('  copyright   display copyright information')
 
-    cmds = commands.keys()
+    cmds = list(commands.keys())
     cmds.sort()
-    print 
-    print 'Super commands (high-level and multi-function):'
+    print() 
+    print('Super commands (high-level and multi-function):')
     for cmd in supercommands:
         _print_helpstring(cmd)
-    print
-    print 'Regular commands:'
+    print()
+    print('Regular commands:')
     for cmd in cmds:
         if not cmd in supercommands:
             _print_helpstring(cmd)
@@ -111,9 +113,8 @@ def main():
     logfile = None
 
     if len(sys.argv) < 2:
-        print >> sys.stderr, 'usage: %s <command>' % prog
-        print >> sys.stderr, \
-              '  Try "%s --help" for a list of supported commands' % prog
+        print('usage: %s <command>' % prog, file=sys.stderr)
+        print('  Try "%s --help" for a list of supported commands' % prog, file=sys.stderr)
         sys.exit(1)
     
     # configure logging
@@ -198,10 +199,10 @@ def main():
                 log.critical('not enough arguments')
                 sys.exit(1)
             cpuspec = sys.argv[2]
-            import cset
+            from . import cset
             try:
-                print cset.cpuspec_to_hex(cpuspec)
-            except (ValueError, OSError, IOError, CpusetException, CmdException), err:
+                print(cset.cpuspec_to_hex(cpuspec))
+            except (ValueError, OSError, IOError, CpusetException, CmdException) as err:
                 log.critical('**> ' + str(err))
                 if debug_level:
                     raise
@@ -226,7 +227,7 @@ def main():
         parser = OptionParser(usage = usage, option_list = command.options)
         options, args = parser.parse_args()
         command.func(parser, options, args)
-    except (ValueError, OSError, IOError, CpusetException, CmdException), err:
+    except (ValueError, OSError, IOError, CpusetException, CmdException) as err:
         log.critical('**> ' + str(err))
         if str(err).find('Permission denied') != -1:
             log.critical('insufficient permissions, you probably need to be root')
